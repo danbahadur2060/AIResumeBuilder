@@ -9,7 +9,7 @@ async function getDatabase() {
   if (!client) {
     client = new MongoClient(process.env.MONGODB_URI!);
     await client.connect();
-    db = client.db(process.env.MONGODB_DBNAME);
+    db = client.db(process.env.MONGODB_DBNAME || "aiResumebuilder");
   }
   return { client, db };
 }
@@ -19,8 +19,8 @@ function createAuth() {
   return betterAuth({
     database: mongodbAdapter(
       new Promise(async (resolve) => {
-        const { db, client } = await getDatabase();
-        resolve(mongodbAdapter(db, { client }));
+        const { db } = await getDatabase();
+        resolve(db);
       }) as any,
       { client: new Promise(async (resolve) => {
         const { client } = await getDatabase();
@@ -34,6 +34,8 @@ function createAuth() {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       },
     },
+    secret: process.env.BETTER_AUTH_SECRET || "your-secret-key-here",
+    baseURL: process.env.NEXT_PUBLIC_AUTH_BASE_URL || "http://localhost:3000",
   });
 }
 

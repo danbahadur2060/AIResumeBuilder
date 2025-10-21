@@ -9,7 +9,12 @@ export async function middleware(request: NextRequest) {
   if (
     pathname.startsWith("/_next") ||
     pathname.startsWith("/static") ||
-    pathname.startsWith("/favicon.ico")
+    pathname.startsWith("/favicon.ico") ||
+    pathname.startsWith("/api/auth") ||
+    pathname === "/" ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/signup") ||
+    pathname.startsWith("/forgotpassword")
   ) {
     return NextResponse.next();
   }
