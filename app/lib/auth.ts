@@ -6,8 +6,12 @@ let client: MongoClient | null = null;
 let db: any = null;
 
 async function getDatabase() {
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI is not defined");
+  }
+  
   if (!client) {
-    client = new MongoClient(process.env.MONGODB_URI!);
+    client = new MongoClient(process.env.MONGODB_URI);
     await client.connect();
     db = client.db(process.env.MONGODB_DBNAME || "aiResumebuilder");
   }
