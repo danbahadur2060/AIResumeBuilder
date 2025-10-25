@@ -16,15 +16,15 @@ if (!cached) {
 
 export async function connectDB() {
   if (cached.conn) return cached.conn;
-  
+
   if (!cached.promise) {
     const options = {
       dbName: "aiResumebuilder",
       bufferCommands: false,
-      autoIndex: process.env.NODE_ENV !== "production", 
-      maxPoolSize: 10, 
+      autoIndex: process.env.NODE_ENV !== "production",
+      maxPoolSize: 10,
       serverSelectionTimeoutMS: 10000,
-      socketTimeoutMS: 45000, 
+      socketTimeoutMS: 45000,
       family: 4,
     };
 
