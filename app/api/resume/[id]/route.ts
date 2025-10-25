@@ -11,7 +11,7 @@ export async function DELETE(
 ) {
   try {
     await connectDB();
-    const { id } = await context.params;
+    const { id } = context.params;
     const session = await auth.api.getSession({ headers: await headers() });
 
     await (Resume as any).findOneAndDelete({
@@ -31,7 +31,7 @@ export async function GET(
 ) {
   try {
     await connectDB();
-    const { id } = await context.params;
+    const { id } = context.params;
     const session = await auth.api.getSession({ headers: await headers() });
 
     const resume = await (Resume as any).findOne({
@@ -40,9 +40,9 @@ export async function GET(
     });
 
     if (!resume) {
-      return errorResponse(".", "Resume not found ", 404);
+      return errorResponse(".", "Resume not found", 404);
     }
-    resume._v = undefined;
+    resume.__v = undefined;
     resume.createdAt = undefined;
     resume.updatedAt = undefined;
     return successResponse(resume, "", 200);
